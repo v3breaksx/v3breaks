@@ -154,4 +154,4 @@ The original direction is preserved:
 
 The hero identity uses a fast three-slice hard cut between `<3` and `v3`. The transition deliberately avoids rotation, bounce, scale pops, or a decorative crack; the word “breaks” stays completely still while only the black mark fractures for roughly 0.2 seconds. Edit the `heart-cut` and `v3-cut` keyframes in `styles.css` to change timing.
 
-bob
+bobanski
