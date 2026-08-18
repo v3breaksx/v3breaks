@@ -1,0 +1,51 @@
+v3 breaks — START HERE
+======================
+
+This version is already set up with:
+- your email: v3breaks@gmail.com
+- Spotify
+- YouTube
+- Apple Music
+- Bandcamp
+- SoundCloud
+- fixed spacing between “v3” and “breaks”
+- automatic smooth scroll to the Listen section after 3 seconds
+
+You do NOT need to own v3breaks.com to use the site.
+You can publish it first on a free hosting address and buy a custom domain later.
+
+THE MAIN FILE FOR EASY CHANGES
+------------------------------
+Open: site-config.js
+
+That is where your music links, email, release title and artwork path live.
+You normally do not need to edit app.js or styles.css.
+
+REPLACE THE TEMPORARY COVER
+---------------------------
+1. Put your new square cover image inside the assets folder.
+   Example: assets/my-new-cover.webp
+2. Open site-config.js.
+3. Find:
+   artwork: "assets/release-cover.svg"
+4. Change it to:
+   artwork: "assets/my-new-cover.webp"
+
+CHANGE THE AUTO-SCROLL DELAY
+----------------------------
+The current delay is 3 seconds (3000 milliseconds).
+If you ever want to change it, open app.js and search for:
+   3000
+
+Examples:
+- 2000 = 2 seconds
+- 3000 = 3 seconds
+- 5000 = 5 seconds
+
+Important: the auto-scroll politely cancels if a visitor starts scrolling or clicking first.
+It is also disabled for visitors who have reduced-motion accessibility enabled.
+
+NEXT STEP
+---------
+When you are ready, upload this project to a free host such as Cloudflare Pages.
+You can use the free pages.dev address first. A custom domain can be added later.

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">v3 breaks abstract release cover</title>
+  <desc id="desc">Minimal ivory artwork with black rhythmic curves and an electric blue square.</desc>
+  <rect width="1200" height="1200" fill="#e9e5dc"/>
+  <g fill="none" stroke="#11110f" stroke-width="3" opacity=".95">
+    <path d="M-40 165 C170 85 275 280 465 196 S777 55 1240 160"/>
+    <path d="M-40 248 C135 180 290 360 475 276 S810 123 1240 241"/>
+    <path d="M-40 343 C160 255 298 470 500 368 S835 212 1240 330"/>
+    <path d="M-40 458 C190 340 328 592 535 473 S860 317 1240 435"/>
+    <path d="M-40 592 C192 443 360 733 566 595 S883 441 1240 554"/>
+    <path d="M-40 744 C192 570 390 885 600 731 S923 576 1240 690"/>
+    <path d="M-40 914 C210 716 425 1054 650 878 S965 742 1240 842"/>
+  </g>
+  <rect x="748" y="428" width="190" height="190" fill="#2d35ff"/>
+  <rect x="778" y="458" width="130" height="130" fill="#e9e5dc" opacity=".18"/>
+  <g fill="#11110f" font-family="Arial, Helvetica, sans-serif">
+    <text x="62" y="85" font-size="25" font-weight="700" letter-spacing="-1">v3 breaks</text>
+    <text x="1138" y="85" text-anchor="end" font-size="14" letter-spacing="2">v3 / 01</text>
+    <text x="62" y="1130" font-size="14" letter-spacing="2">FALSE AWAKENING</text>
+    <text x="1138" y="1130" text-anchor="end" font-size="14" letter-spacing="2">2026</text>
+  </g>
+</svg>

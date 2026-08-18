@@ -1,0 +1,6 @@
+Logo fix:
+- rebuilt the header identity as a true two-line mini lockup
+- animated v3 / <3 stays on its own row
+- blue breaks sits on a separate row underneath
+- no overlapping/colliding letters
+- page still opens directly on the streaming choices
