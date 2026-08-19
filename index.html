@@ -11,14 +11,17 @@
       name="description"
       content="Listen to releases, support future music, or get in touch for collaborations."
     />
+    <link rel="canonical" href="https://v3breaks.com/" />
 
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="v3 breaks" />
+    <meta property="og:url" content="https://v3breaks.com/" />
     <meta property="og:title" content=" Independent music producer" />
     <meta
       property="og:description"
       content="Listen to v3 breaks, discover the latest release, support future music, or collaborate."
     />
-    <meta property="og:image" content="assets/1691.jpg" />
+    <meta property="og:image" content="https://v3breaks.com/assets/1691.jpg" />
     <meta property="og:image:alt" content="v3 breaks release artwork" />
 
     <meta name="twitter:card" content="summary_large_image" />
@@ -30,7 +33,7 @@
       name="twitter:description"
       content="Listen to v3 breaks, discover the latest release, support future music, or collaborate."
     />
-    <meta name="twitter:image" content="assets/1691.jpg" />
+    <meta name="twitter:image" content="https://v3breaks.com/assets/1691.jpg" />
 
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="site.webmanifest" />
@@ -48,6 +51,7 @@
         "@context": "https://schema.org",
         "@type": "MusicGroup",
         "name": "v3 breaks",
+        "url": "https://v3breaks.com/",
         "sameAs": [
           "https://open.spotify.com/artist/6aldeROmb108VI4Jcl51Ct",
           "https://www.youtube.com/@v3breaks",
@@ -80,7 +84,8 @@
       </a>
       <nav class="nav" aria-label="Primary navigation">
         <a href="#listen">Listen</a>
-        <a href="#release">Release</a>
+        <a href="/releases/">Releases</a>
+        <a href="/scolly-osis/">Side Project</a>
         <a href="#support">Support</a>
         <a href="#contact">Collaborate</a>
       </nav>
@@ -108,27 +113,22 @@
         </div>
       </section>
 
-      <section
-        class="release section"
-        id="release"
-        aria-labelledby="release-title"
-      >
-        <div class="section-label">
-          <span>02</span>
-          <span>Latest</span>
-        </div>
-        <div class="section-main release-layout">
-          <div class="release-heading">
-            <p class="release-meta" id="release-meta">Single / 2026</p>
-            <h2 id="release-title">I live my life in a false awakening</h2>
+      <section class="release-portal" id="release" aria-labelledby="release-portal-title">
+        <a class="release-portal-link" href="/releases/" aria-label="Open the v3 breaks releases archive">
+          <div class="release-portal-inner">
+            <div class="release-portal-label">
+              <span>02</span>
+              <span>archive</span>
+            </div>
+            <div class="release-portal-copy">
+              <h2 id="release-portal-title">every release.<br /><em>one place.</em></h2>
+              <div class="release-portal-bottom">
+                <p>Singles, albums and everything released under v3 breaks.</p>
+                <span class="release-portal-cta">Enter releases <span aria-hidden="true">↗</span></span>
+              </div>
+            </div>
           </div>
-          <div class="release-aside">
-            <p id="release-description">
-              Find the latest music from v3 breaks on your preferred platform.
-            </p>
-            <div class="release-links" id="release-links"></div>
-          </div>
-        </div>
+        </a>
       </section>
 
       <section
@@ -250,7 +250,7 @@
             <p class="form-note">
               Protected by Cloudflare Turnstile. Messages are sent directly to
               the v3 breaks inbox; your email address is not exposed on this
-              page.
+              page. <a class="inline-privacy-link" href="/privacy/">Privacy</a>.
             </p>
           </form>
         </div>
@@ -264,7 +264,7 @@
           class="social-links"
           id="social-links"
           aria-label="Social links"
-        ></div>
+        ><a class="social-link project-social-link" href="/scolly-osis/">scolly osis</a><a class="social-link" href="/privacy/">Privacy</a></div>
       </div>
       <div class="footer-bottom">
         <span>Independent electronic music producer</span>

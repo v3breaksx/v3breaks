@@ -1,0 +1,14 @@
+scolly osis side-project page added
+
+URL after deployment:
+https://v3breaks.com/scolly-osis/
+
+Added:
+- scolly osis tab in the desktop navigation
+- dedicated metal / shoegaze page in the same v3 breaks design language
+- 2026 public releases discovered online
+- scolly osis footer link on home + releases
+- sitemap entry
+- social sharing card
+
+If you send direct Spotify / Apple Music / Instagram / artwork links later, they can be swapped into this page without redesigning it.

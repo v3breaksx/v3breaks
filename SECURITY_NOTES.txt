@@ -1,4 +1,4 @@
-Security added to the contact form:
+Security currently applied to the contact form:
 - hidden honeypot field
 - strict field lengths and validation
 - request body size limit
@@ -8,5 +8,11 @@ Security added to the contact form:
 - Turnstile hostname check against the live request hostname
 - single-use, short-lived Turnstile tokens
 - Resend API key remains server-side only
-- CSP updated to allow only Cloudflare Turnstile's challenge origin
-- public inbox address removed from HTML/JavaScript; CONTACT_TO_EMAIL stays server-side
+- Turnstile secret remains server-side only
+- CSP allows only the required Cloudflare Turnstile origins
+- public inbox address is not exposed in HTML/JavaScript; CONTACT_TO_EMAIL stays server-side
+
+Production hostname:
+- v3breaks.com
+
+Keep account 2FA enabled for Cloudflare, GitHub and Resend.

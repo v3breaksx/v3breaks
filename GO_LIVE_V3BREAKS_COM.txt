@@ -1,0 +1,42 @@
+v3breaks.com GO-LIVE CHECKLIST
+===============================
+
+1) CLOUDFLARE PAGES
+- Open Workers & Pages > v3breaks > Custom domains.
+- Add: v3breaks.com
+- Wait until Cloudflare shows the domain as active.
+- Keep the existing Pages project. Do NOT create a new site.
+
+2) TURNSTILE
+- Open Cloudflare Turnstile > your contact-form widget > Settings.
+- Add hostname: v3breaks.com
+- Keep v3breaks.pages.dev temporarily while testing.
+- Your existing TURNSTILE_SECRET_KEY stays in Pages Variables and Secrets.
+- Your public site key remains in site-config.js.
+
+3) TEST
+- Open https://v3breaks.com
+- Test Spotify, Bandcamp, YouTube, Apple Music and SoundCloud.
+- Submit the contact form once and confirm it arrives.
+- Check the site on your phone.
+
+4) RESEND
+- Add v3breaks.com in Resend Domains.
+- Add the DNS records Resend gives you to Cloudflare DNS.
+- Wait for verification.
+- Then you can change CONTACT_FROM_EMAIL in Cloudflare to:
+  v3 breaks <website@v3breaks.com>
+- CONTACT_TO_EMAIL can remain your private Gmail inbox.
+
+5) CANONICAL REDIRECTS
+- Once v3breaks.com works, redirect alternate hostnames to the main domain.
+- Recommended public canonical URL: https://v3breaks.com/
+
+6) PRODUCTION METADATA INCLUDED
+- canonical URL = https://v3breaks.com/
+- Open Graph URL uses v3breaks.com
+- your chosen assets/1691.jpg share image is preserved and now uses an absolute v3breaks.com URL
+- JSON-LD contains v3breaks.com
+- robots.txt points to sitemap.xml
+- sitemap.xml is included
+- 404.html is marked noindex

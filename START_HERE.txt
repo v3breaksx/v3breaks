@@ -1,51 +1,55 @@
 v3 breaks — START HERE
 ======================
 
-This version is already set up with:
-- your email: <your private contact email>
-- Spotify
-- YouTube
-- Apple Music
-- Bandcamp
-- SoundCloud
-- fixed spacing between “v3” and “breaks”
-- automatic smooth scroll to the Listen section after 3 seconds
+This is your current production-ready version. Your own design/content changes were kept.
 
-You do NOT need to own v3breaks.com to use the site.
-You can publish it first on a free hosting address and buy a custom domain later.
+CURRENT SETUP
+-------------
+- homepage opens directly on the streaming choices
+- animated v3 / <3 logo in the top-left
+- Spotify, Bandcamp, YouTube, Apple Music and SoundCloud links
+- your current release artwork is kept
+- direct contact-form email through Cloudflare Pages + Resend
+- Cloudflare Turnstile spam protection
+- official website URL: https://v3breaks.com
 
-THE MAIN FILE FOR EASY CHANGES
-------------------------------
+EASY CONTENT CHANGES
+--------------------
 Open: site-config.js
 
-That is where your music links, email, release title and artwork path live.
-You normally do not need to edit app.js or styles.css.
+That file contains your platform links, release details, artwork path, support links, social links and the PUBLIC Turnstile site key.
 
-REPLACE THE TEMPORARY COVER
----------------------------
-1. Put your new square cover image inside the assets folder.
-   Example: assets/my-new-cover.webp
-2. Open site-config.js.
-3. Find:
-   artwork: "assets/release-cover.svg"
-4. Change it to:
-   artwork: "assets/my-new-cover.webp"
+Do NOT put these secrets in GitHub or site-config.js:
+- RESEND_API_KEY
+- TURNSTILE_SECRET_KEY
 
-CHANGE THE AUTO-SCROLL DELAY
-----------------------------
-The current delay is 3 seconds (3000 milliseconds).
-If you ever want to change it, open app.js and search for:
-   3000
+Those stay in Cloudflare > Workers & Pages > v3breaks > Settings > Variables and Secrets.
 
-Examples:
-- 2000 = 2 seconds
-- 3000 = 3 seconds
-- 5000 = 5 seconds
+CLOUDFLARE VARIABLES
+--------------------
+Keep these configured for Production:
+- RESEND_API_KEY = encrypted Secret
+- CONTACT_TO_EMAIL = your private inbox
+- CONTACT_FROM_EMAIL = your Resend sender
+- TURNSTILE_SECRET_KEY = encrypted Secret
 
-Important: the auto-scroll politely cancels if a visitor starts scrolling or clicking first.
-It is also disabled for visitors who have reduced-motion accessibility enabled.
+CUSTOM DOMAIN
+-------------
+Attach v3breaks.com to the EXISTING Cloudflare Pages project. Do not create a new project.
 
-NEXT STEP
+TURNSTILE
 ---------
-When you are ready, upload this project to a free host such as Cloudflare Pages.
-You can use the free pages.dev address first. A custom domain can be added later.
+Your Turnstile widget should allow:
+- v3breaks.com
+- v3breaks.pages.dev temporarily while testing
+
+RESEND
+------
+Once v3breaks.com is verified in Resend, you can use a sender such as:
+  v3 breaks <website@v3breaks.com>
+
+CONTACT_TO_EMAIL can still be your private Gmail inbox.
+
+DEPLOYING CHANGES
+-----------------
+Commit/upload changed files to the main branch of your GitHub repo. Cloudflare Pages will redeploy automatically.

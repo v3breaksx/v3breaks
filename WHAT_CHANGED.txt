@@ -4,3 +4,21 @@ Logo fix:
 - blue breaks sits on a separate row underneath
 - no overlapping/colliding letters
 - page still opens directly on the streaming choices
+
+Production/domain rebuild:
+- started from your newly supplied v3-breaks-site.rar
+- preserved your current design, copy, artwork, links, Ko-fi and social changes
+- preserved your working Turnstile site key and spam-protected contact form
+- added v3breaks.com canonical / Open Graph / structured-data metadata
+- kept your chosen assets/1691.jpg as the sharing artwork
+- updated robots.txt + sitemap.xml
+- marked the 404 page noindex
+- refreshed setup docs for the custom domain and current email/security setup
+
+
+Aug 20 polish:
+- homepage Latest Release section is now a full-width typographic doorway to /releases/
+- main navigation label changed from scolly osis to Side Project
+- added /privacy/ in the same visual system
+- added Privacy links to footers and contact-form note
+- added privacy page to sitemap.xml

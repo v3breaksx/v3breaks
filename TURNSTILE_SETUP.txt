@@ -1,22 +1,26 @@
 v3 breaks - Cloudflare Turnstile spam protection
 
-1. In Cloudflare dashboard, open Turnstile and choose Add widget.
-2. Widget name: v3 breaks contact
-3. Hostname: v3breaks.pages.dev
-   Later, when you buy a custom domain, add that hostname too.
-4. Widget mode: Managed (recommended). The site only shows it when interaction is needed.
-5. Create the widget and copy both keys.
-6. PUBLIC SITE KEY:
-   Open site-config.js and replace PASTE_YOUR_TURNSTILE_SITE_KEY_HERE with the Site Key.
-   The Site Key is public and is safe to commit to GitHub.
-7. SECRET KEY:
-   Cloudflare > Workers & Pages > v3breaks > Settings > Variables and Secrets
-   Add TURNSTILE_SECRET_KEY and save it as an encrypted Secret.
-   Never put this secret in GitHub or site-config.js.
-8. Commit/push the changed site-config.js to GitHub. Cloudflare Pages will redeploy.
-9. Test the contact form on https://v3breaks.pages.dev.
+Your current site already contains the Turnstile client and server-side verification code.
 
-Keep the existing Resend settings:
+Cloudflare setup:
+1. Open Cloudflare > Turnstile > your v3 breaks contact widget.
+2. In Hostname Management, allow:
+   - v3breaks.com
+   - v3breaks.pages.dev (keep temporarily while testing)
+3. The PUBLIC Site Key stays in site-config.js. It is safe to commit.
+4. The SECRET Key stays in:
+   Cloudflare > Workers & Pages > v3breaks > Settings > Variables and Secrets
+   Variable name: TURNSTILE_SECRET_KEY
+   Save it as encrypted/Secret. Never commit it to GitHub.
+5. After deployment, submit one real test from https://v3breaks.com and confirm it reaches your inbox.
+
+The server checks:
+- Turnstile token validity
+- action = contact
+- hostname matches the live request hostname
+- token is valid/single-use
+
+Keep the existing Resend settings too:
 - RESEND_API_KEY = encrypted Secret
-- CONTACT_TO_EMAIL = <your private contact email>
-- CONTACT_FROM_EMAIL = v3 breaks <onboarding@resend.dev> (until you verify your own domain)
+- CONTACT_TO_EMAIL = your private inbox
+- CONTACT_FROM_EMAIL = your Resend sender

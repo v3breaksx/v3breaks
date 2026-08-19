@@ -1,0 +1,18 @@
+RELEASES PAGE
+=============
+
+New page: https://v3breaks.com/releases/
+
+What changed:
+- Added a dedicated release archive in the existing v3 breaks visual style.
+- Added the current 2026 releases visible on Apple Music.
+- Added the public Bandcamp archive back to 2023.
+- Added a larger 1691.kml album feature using your existing artwork.
+- Changed the home navigation from the old #release anchor to /releases/.
+- Added “View all releases” underneath the latest-release section.
+- Added /releases/ to sitemap.xml.
+
+The recent 2026/2025 titles that are not on Bandcamp currently point to your Apple Music artist page.
+When you have direct Spotify/Apple track URLs, those can be swapped in without redesigning the page.
+
+FIX: releases/index.html now uses parent-relative CSS and asset paths (../styles.css, ../releases.css, ../assets/...) so the page styles correctly both on v3breaks.com/releases/ and when previewed locally.
