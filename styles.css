@@ -1105,3 +1105,23 @@ main,
   color: var(--blue);
   text-underline-offset: 5px;
 }
+
+
+/* Contact-form bot protection. The Turnstile widget stays visually quiet and
+   only appears when Cloudflare needs visitor interaction. */
+.turnstile-container {
+  min-height: 0;
+  width: 100%;
+  overflow: visible;
+}
+.turnstile-container:empty { display: none; }
+.turnstile-container iframe { max-width: 100%; }
+.contact-form.is-checking .submit-button { cursor: wait; }
+
+.contact-private-note {
+  max-width: 34ch;
+  margin: 38px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}

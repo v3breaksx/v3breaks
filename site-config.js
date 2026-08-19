@@ -10,8 +10,8 @@
 window.v3Config = {
   artist: {
     name: "v3 breaks",
-    kicker: "independent electronic producer",
-    tagline: "I do whatever I want",
+    kicker: "independent electronic music",
+    tagline: "Fast breaks, fractured atmosphere, late-night emotion.",
   },
 
   platforms: [
@@ -25,7 +25,7 @@ window.v3Config = {
       name: "Bandcamp",
       url: "https://v3breaks.bandcamp.com/",
       priority: true,
-      meta: "stream",
+      meta: "listen",
     },
     {
       name: "YouTube",
@@ -43,7 +43,7 @@ window.v3Config = {
       name: "SoundCloud",
       url: "https://soundcloud.com/v3breaksx",
       priority: false,
-      meta: "stream",
+      meta: "listen",
     },
   ],
 
@@ -51,7 +51,9 @@ window.v3Config = {
     title: "I live my life in a false awakening",
     type: "Single",
     year: "2026",
-    artwork: "assets/1691.png",
+    description:
+      "Find the latest music from v3 breaks on your preferred platform.",
+    artwork: "assets/1691.jpg",
     links: [],
   },
 
@@ -62,7 +64,7 @@ window.v3Config = {
     },
     {
       name: "Ko-fi",
-      url: "ko-fi.com/v3breaks",
+      url: "https://ko-fi.com/v3breaks",
     },
     {
       name: "PayPal",
@@ -71,8 +73,14 @@ window.v3Config = {
   ],
 
   contact: {
-    email: "v3breaks@gmail.com",
     endpoint: "/api/contact",
+  },
+
+  // Turnstile site keys are PUBLIC and safe to keep in this file.
+  // Paste the Site Key from Cloudflare Turnstile here. Keep the Secret Key
+  // only in Cloudflare Pages as TURNSTILE_SECRET_KEY.
+  security: {
+    turnstileSiteKey: "0x4AAAAAAEUtOTkgolmvPjRU",
   },
 
   socials: [
@@ -87,5 +95,7 @@ window.v3Config = {
     },
     { name: "Bandcamp", url: "https://v3breaks.bandcamp.com/" },
     { name: "SoundCloud", url: "https://soundcloud.com/v3breaksx" },
+    { name: "TikTok", url: "https://www.tiktok.com/@v3breaks" },
+    { name: "Instagram", url: "https://soundcloud.com/v3breaksx" },
   ],
 };

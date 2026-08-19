@@ -1,0 +1,22 @@
+v3 breaks - Cloudflare Turnstile spam protection
+
+1. In Cloudflare dashboard, open Turnstile and choose Add widget.
+2. Widget name: v3 breaks contact
+3. Hostname: v3breaks.pages.dev
+   Later, when you buy a custom domain, add that hostname too.
+4. Widget mode: Managed (recommended). The site only shows it when interaction is needed.
+5. Create the widget and copy both keys.
+6. PUBLIC SITE KEY:
+   Open site-config.js and replace PASTE_YOUR_TURNSTILE_SITE_KEY_HERE with the Site Key.
+   The Site Key is public and is safe to commit to GitHub.
+7. SECRET KEY:
+   Cloudflare > Workers & Pages > v3breaks > Settings > Variables and Secrets
+   Add TURNSTILE_SECRET_KEY and save it as an encrypted Secret.
+   Never put this secret in GitHub or site-config.js.
+8. Commit/push the changed site-config.js to GitHub. Cloudflare Pages will redeploy.
+9. Test the contact form on https://v3breaks.pages.dev.
+
+Keep the existing Resend settings:
+- RESEND_API_KEY = encrypted Secret
+- CONTACT_TO_EMAIL = <your private contact email>
+- CONTACT_FROM_EMAIL = v3 breaks <onboarding@resend.dev> (until you verify your own domain)

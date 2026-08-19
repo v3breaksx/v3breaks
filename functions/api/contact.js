@@ -25,6 +25,55 @@ const allowedTopics = new Set([
   "Other"
 ]);
 
+const verifyTurnstile = async ({ token, secret, remoteIp, expectedHostname }) => {
+  const body = new URLSearchParams({
+    secret,
+    response: token
+  });
+
+  if (remoteIp) body.set("remoteip", remoteIp);
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
+
+  try {
+    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      body,
+      signal: controller.signal
+    });
+
+    if (!response.ok) {
+      return { valid: false, reason: "siteverify_unavailable" };
+    }
+
+    const result = await response.json();
+
+    if (!result.success) {
+      return {
+        valid: false,
+        reason: "challenge_failed",
+        errors: result["error-codes"] || []
+      };
+    }
+
+    if (result.action !== "contact") {
+      return { valid: false, reason: "action_mismatch" };
+    }
+
+    if (result.hostname !== expectedHostname) {
+      return { valid: false, reason: "hostname_mismatch" };
+    }
+
+    return { valid: true };
+  } catch (_) {
+    return { valid: false, reason: "siteverify_error" };
+  } finally {
+    clearTimeout(timeout);
+  }
+};
+
 export async function onRequestPost(context) {
   const { request, env } = context;
   const contentLength = Number(request.headers.get("content-length") || 0);
@@ -40,6 +89,7 @@ export async function onRequestPost(context) {
     return json({ ok: false, error: "Invalid form data." }, 400);
   }
 
+  // Honeypot: pretend success so simple form-filling bots get no useful signal.
   if (clean(data.get("website"), 200)) {
     return json({ ok: true });
   }
@@ -54,11 +104,34 @@ export async function onRequestPost(context) {
     return json({ ok: false, error: "Please check the form fields and try again." }, 400);
   }
 
+  const turnstileSecret = env.TURNSTILE_SECRET_KEY;
+  const turnstileToken = clean(data.get("cf-turnstile-response"), 2048);
+
+  if (!turnstileSecret) {
+    return json({ ok: false, error: "Spam protection is not configured." }, 503);
+  }
+
+  if (!turnstileToken) {
+    return json({ ok: false, error: "Security check is required." }, 403);
+  }
+
+  const verification = await verifyTurnstile({
+    token: turnstileToken,
+    secret: turnstileSecret,
+    remoteIp: request.headers.get("CF-Connecting-IP") || "",
+    expectedHostname: new URL(request.url).hostname
+  });
+
+  if (!verification.valid) {
+    console.warn("Turnstile rejected contact submission", verification.reason, verification.errors || []);
+    return json({ ok: false, error: "Security check failed. Please try again." }, 403);
+  }
+
   const apiKey = env.RESEND_API_KEY;
-  const to = env.CONTACT_TO_EMAIL || "v3breaks@gmail.com";
+  const to = env.CONTACT_TO_EMAIL;
   const from = env.CONTACT_FROM_EMAIL;
 
-  if (!apiKey || !from) {
+  if (!apiKey || !to || !from) {
     return json({ ok: false, error: "Mail endpoint is not configured." }, 503);
   }
 

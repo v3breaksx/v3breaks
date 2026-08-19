@@ -1,0 +1,12 @@
+Security added to the contact form:
+- hidden honeypot field
+- strict field lengths and validation
+- request body size limit
+- Cloudflare Turnstile challenge
+- mandatory server-side Siteverify validation
+- Turnstile action check (contact)
+- Turnstile hostname check against the live request hostname
+- single-use, short-lived Turnstile tokens
+- Resend API key remains server-side only
+- CSP updated to allow only Cloudflare Turnstile's challenge origin
+- public inbox address removed from HTML/JavaScript; CONTACT_TO_EMAIL stays server-side

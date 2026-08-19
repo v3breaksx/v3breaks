@@ -38,7 +38,7 @@ Change the public contact address in `site-config.js`:
 
 ```js
 contact: {
-  email: "v3breaks@gmail.com",
+  email: "<your private contact email>",
   endpoint: "/api/contact"
 }
 ```
@@ -54,7 +54,7 @@ That function validates the form on the server and sends the message through the
 Set these Cloudflare Pages variables/secrets before deployment:
 
 - `RESEND_API_KEY` - your Resend API key
-- `CONTACT_TO_EMAIL` - where messages should arrive, for example `v3breaks@gmail.com`
+- `CONTACT_TO_EMAIL` - where messages should arrive, for example `<your private contact email>`
 - `CONTACT_FROM_EMAIL` - the verified sender used by Resend. You can ignore direct-send mode for now if you do not own a domain yet; the site will fall back to opening the visitor's email app.
 
 The visitor's address is set as the email `reply_to`, so replying from your inbox goes back to the person who submitted the form.
@@ -153,5 +153,3 @@ The original direction is preserved:
 ## Mark animation
 
 The hero identity uses a fast three-slice hard cut between `<3` and `v3`. The transition deliberately avoids rotation, bounce, scale pops, or a decorative crack; the word “breaks” stays completely still while only the black mark fractures for roughly 0.2 seconds. Edit the `heart-cut` and `v3-cut` keyframes in `styles.css` to change timing.
-
-bobanski

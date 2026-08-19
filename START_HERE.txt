@@ -2,7 +2,7 @@ v3 breaks — START HERE
 ======================
 
 This version is already set up with:
-- your email: v3breaks@gmail.com
+- your email: <your private contact email>
 - Spotify
 - YouTube
 - Apple Music

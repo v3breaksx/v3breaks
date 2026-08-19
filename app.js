@@ -72,18 +72,22 @@
     visible(config.support).forEach((item, index) => supportLinks.appendChild(makeAction(item, index === 0)));
   }
 
-  const emailLink = $("#email-link");
-  if (emailLink) {
-    emailLink.textContent = config.contact.email;
-    emailLink.href = `mailto:${config.contact.email}`;
-  }
-
   const form = $("#contact-form");
   const formStatus = $("#form-status");
   if (form && formStatus) {
     const submitButton = form.querySelector(".submit-button");
     const submitLabel = form.querySelector(".submit-label");
     const defaultSubmitLabel = submitLabel.textContent;
+    const turnstileContainer = $("#turnstile-container");
+    const turnstileSiteKey = String(config.security?.turnstileSiteKey || "").trim();
+    const turnstileConfigured = Boolean(
+      turnstileSiteKey && !turnstileSiteKey.includes("PASTE_YOUR_")
+    );
+
+    let turnstileWidgetId = null;
+    let turnstileToken = "";
+    let pendingTurnstileSubmit = false;
+    let challengeTimer = null;
 
     const setFormStatus = (message = "", state = "") => {
       formStatus.textContent = message;
@@ -91,48 +95,47 @@
       formStatus.classList.toggle("is-error", state === "error");
     };
 
-    const setSending = (sending) => {
+    const setSending = (sending, checking = false) => {
       form.classList.toggle("is-sending", sending);
+      form.classList.toggle("is-checking", checking);
       submitButton.disabled = sending;
     };
 
-    const buildMailto = (data) => {
-      const name = String(data.get("name") || "").trim();
-      const sender = String(data.get("email") || "").trim();
-      const topic = String(data.get("topic") || "Other").trim();
-      const message = String(data.get("message") || "").trim();
-      const subject = `[v3 breaks] ${topic} - ${name}`;
-      const body = `Name: ${name}
-Email: ${sender}
-Topic: ${topic}
-
-${message}`;
-      return `mailto:${encodeURIComponent(config.contact.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const clearChallengeTimer = () => {
+      if (challengeTimer) {
+        window.clearTimeout(challengeTimer);
+        challengeTimer = null;
+      }
     };
 
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      setFormStatus();
+    const resetTurnstile = () => {
+      clearChallengeTimer();
+      pendingTurnstileSubmit = false;
+      turnstileToken = "";
+      if (turnstileWidgetId !== null && window.turnstile) {
+        try {
+          window.turnstile.reset(turnstileWidgetId);
+        } catch (_) {
+          // A page navigation or widget teardown can make reset unnecessary.
+        }
+      }
+    };
 
-      if (!form.reportValidity()) return;
+    const sendContactForm = async () => {
+      pendingTurnstileSubmit = false;
+      clearChallengeTimer();
 
       const data = new FormData(form);
-      if (String(data.get("website") || "").trim()) {
-        form.reset();
-        setFormStatus("Message sent. Thank you.", "success");
-        return;
-      }
-
       data.set("name", String(data.get("name") || "").trim());
       data.set("email", String(data.get("email") || "").trim());
       data.set("message", String(data.get("message") || "").trim());
+      data.set("cf-turnstile-response", turnstileToken);
 
       const endpoint = config.contact.endpoint || form.getAttribute("action") || "/api/contact";
-      const mailto = buildMailto(data);
       const controller = new AbortController();
-      const timeout = window.setTimeout(() => controller.abort(), 9000);
+      const timeout = window.setTimeout(() => controller.abort(), 10000);
 
-      setSending(true);
+      setSending(true, false);
       submitLabel.textContent = "Sending...";
 
       try {
@@ -160,51 +163,103 @@ ${message}`;
         window.setTimeout(() => {
           submitLabel.textContent = defaultSubmitLabel;
         }, 3200);
-      } catch (_) {
-        setFormStatus("Direct send is unavailable right now. Opening your email app with the message pre-filled instead.", "error");
-        submitLabel.textContent = "Opening email...";
-        window.setTimeout(() => {
-          window.location.href = mailto;
-          window.setTimeout(() => {
-            submitLabel.textContent = defaultSubmitLabel;
-          }, 1200);
-        }, 350);
+      } catch (error) {
+        setFormStatus(error?.message || "Could not send right now. Please try again in a moment.", "error");
+        submitLabel.textContent = defaultSubmitLabel;
       } finally {
         window.clearTimeout(timeout);
-        setSending(false);
+        setSending(false, false);
+        resetTurnstile();
       }
-    });
-  }
+    };
 
-  const copyButton = $("#copy-email");
-  const copyFallback = (text) => {
-    const area = document.createElement("textarea");
-    area.value = text;
-    area.setAttribute("readonly", "");
-    area.style.position = "fixed";
-    area.style.opacity = "0";
-    document.body.appendChild(area);
-    area.select();
-    document.execCommand("copy");
-    area.remove();
-  };
+    const initTurnstile = () => {
+      if (!turnstileConfigured || !turnstileContainer || !window.turnstile) return false;
+      if (turnstileWidgetId !== null) return true;
 
-  if (copyButton) {
-    copyButton.addEventListener("click", async () => {
-      const original = copyButton.textContent;
       try {
-        if (navigator.clipboard && window.isSecureContext) {
-          await navigator.clipboard.writeText(config.contact.email);
-        } else {
-          copyFallback(config.contact.email);
-        }
-        copyButton.textContent = "Copied";
+        turnstileWidgetId = window.turnstile.render(turnstileContainer, {
+          sitekey: turnstileSiteKey,
+          action: "contact",
+          execution: "execute",
+          appearance: "interaction-only",
+          theme: "light",
+          callback: (token) => {
+            turnstileToken = token;
+            clearChallengeTimer();
+            if (pendingTurnstileSubmit) {
+              sendContactForm();
+            }
+          },
+          "error-callback": () => {
+            resetTurnstile();
+            setSending(false, false);
+            submitLabel.textContent = defaultSubmitLabel;
+            setFormStatus("Security check could not complete. Please try again.", "error");
+          },
+          "expired-callback": () => {
+            turnstileToken = "";
+          },
+          "timeout-callback": () => {
+            resetTurnstile();
+            setSending(false, false);
+            submitLabel.textContent = defaultSubmitLabel;
+            setFormStatus("Security check timed out. Please try again.", "error");
+          }
+        });
+        return true;
       } catch (_) {
-        copyButton.textContent = "Copy failed";
+        return false;
       }
-      window.setTimeout(() => {
-        copyButton.textContent = original;
-      }, 1600);
+    };
+
+    if (turnstileConfigured) {
+      initTurnstile();
+      window.addEventListener("load", initTurnstile, { once: true });
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      setFormStatus();
+
+      if (!form.reportValidity()) return;
+
+      const preflight = new FormData(form);
+      if (String(preflight.get("website") || "").trim()) {
+        form.reset();
+        setFormStatus("Message sent. Thank you.", "success");
+        return;
+      }
+
+      if (!turnstileConfigured) {
+        setFormStatus("Spam protection is not configured yet. Add your Cloudflare Turnstile Site Key first.", "error");
+        return;
+      }
+
+      if (!initTurnstile() || turnstileWidgetId === null) {
+        setFormStatus("Security check is still loading. Try again in a moment.", "error");
+        return;
+      }
+
+      pendingTurnstileSubmit = true;
+      setSending(true, true);
+      submitLabel.textContent = "Checking...";
+
+      challengeTimer = window.setTimeout(() => {
+        resetTurnstile();
+        setSending(false, false);
+        submitLabel.textContent = defaultSubmitLabel;
+        setFormStatus("Security check took too long. Please try again.", "error");
+      }, 20000);
+
+      try {
+        window.turnstile.execute(turnstileWidgetId);
+      } catch (_) {
+        resetTurnstile();
+        setSending(false, false);
+        submitLabel.textContent = defaultSubmitLabel;
+        setFormStatus("Security check could not start. Please refresh and try again.", "error");
+      }
     });
   }
 
