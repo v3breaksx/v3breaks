@@ -96,6 +96,6 @@ window.v3Config = {
     { name: "Bandcamp", url: "https://v3breaks.bandcamp.com/" },
     { name: "SoundCloud", url: "https://soundcloud.com/v3breaksx" },
     { name: "TikTok", url: "https://www.tiktok.com/@v3breaks" },
-    { name: "Instagram", url: "https://soundcloud.com/v3breaksx" },
+    { name: "Instagram", url: "https://instagram.com/v3breaksx" },
   ],
 };
